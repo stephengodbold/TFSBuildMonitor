@@ -15,7 +15,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TeamFoundationCollectionUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://tfs.studygroup.com:8080/tfs/StudyGroup</Value>
+      <Value Profile="(Default)">http://tfs.somewhere.com/tfs/Collection</Value>
     </Setting>
     <Setting Name="FlashLightOnBuildStatusChange" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
