@@ -45,20 +45,17 @@ namespace BuildMonitor.Engine
             if (BuildWatcherInitializing != null)
                 BuildWatcherInitializing(this, events);
 
-            while (true)
+            try
             {
-                try
+                var buildStoreEvents = eventSource.GetListOfBuildStoreEvents();
+                foreach (var buildEvent in buildStoreEvents)
                 {
-                    var buildStoreEvents = eventSource.GetListOfBuildStoreEvents();
-                    foreach (var buildEvent in buildStoreEvents)
-                    {
-                        ProcessBuildEvent(buildEvent);
-                    }
+                    ProcessBuildEvent(buildEvent);
                 }
-                catch (ThreadAbortException)
-                {
-                    return;
-                }
+            }
+            catch (ThreadAbortException)
+            {
+                logger.Warning("Thread abort in watcher");
             }
         }
 
@@ -81,7 +78,7 @@ namespace BuildMonitor.Engine
 
         public void Start()
         {
-            pollTimer = new Timer(Worker, null, 0, Settings.Default.PollPeriod*1000);
+            pollTimer = new Timer(Worker, null, 0, Settings.Default.PollPeriod * 1000);
         }
 
         public void Stop()
@@ -93,7 +90,5 @@ namespace BuildMonitor.Engine
         public event BuildWatcherEventHandler BuildCompletionEvent;
         public event BuildWatcherEventHandler BuildQualityChangeEvent;
         public event BuildWatcherStoppingHandler BuildWatcherStopping;
-
-        
     }
 }
