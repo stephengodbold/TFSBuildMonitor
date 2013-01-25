@@ -20,7 +20,6 @@ namespace BuildMonitor.Service
         {
             try
             {
-                
                 watcher = new BuildWatcher(logger);
                 PublisherFactory.InstantiatePublishers(logger, watcher);
 
