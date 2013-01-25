@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using BuildMonitor.Service.Properties;
+using BuildMonitor.Engine.Properties;
 
 namespace BuildMonitor.Engine
 {

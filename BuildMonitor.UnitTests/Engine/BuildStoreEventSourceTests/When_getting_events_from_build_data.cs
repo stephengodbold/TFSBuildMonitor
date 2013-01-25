@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BuildMonitor.Engine;
-using BuildMonitor.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests

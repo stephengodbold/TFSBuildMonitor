@@ -1,6 +1,5 @@
 using System;
 using BuildMonitor.Engine;
-using BuildMonitor.Service;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Server;
 using Rhino.Mocks;

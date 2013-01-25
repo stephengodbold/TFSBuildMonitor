@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BuildMonitor.Service;
 using Microsoft.TeamFoundation.Build.Client;
 using System.Threading;
 
@@ -41,12 +40,12 @@ namespace BuildMonitor.Engine
             {
                 SetLED(DelcomBuildIndicator.REDLED, true, false);
             }
-            else if (Service.Properties.Settings.Default.EnableDelcomLightColourChangeWhileBuilding &&
+            else if (Properties.Settings.Default.EnableDelcomLightColourChangeWhileBuilding &&
                      BuildStatuses.Any(b => b.Value == BuildStatus.InProgress))
             {
                 SetLED(DelcomBuildIndicator.GREENLED, false, false);
                 SetLED(DelcomBuildIndicator.BLUELED, true,
-                       Service.Properties.Settings.Default.EnableDelcomFlashingWhileBuilding);
+                       Properties.Settings.Default.EnableDelcomFlashingWhileBuilding);
                 SetLED(DelcomBuildIndicator.REDLED, false, false);
             }
             else if (BuildStatuses.Any(b => b.Value == BuildStatus.PartiallySucceeded))
@@ -103,10 +102,10 @@ namespace BuildMonitor.Engine
                                           buildStoreEvent.Data.BuildDefinition, buildStoreEvent.Data.Quality));
 
             BuildStatuses[buildStoreEvent.Data.BuildDefinition.Name] = status;
-            var checkAllBuildStatuses = !Service.Properties.Settings.Default.ShowStatusOfLastBuildOnly;
+            var checkAllBuildStatuses = !Properties.Settings.Default.ShowStatusOfLastBuildOnly;
 
-            bool flashOnStatusChange = Service.Properties.Settings.Default.FlashLightOnBuildStatusChange;
-            int? flashDuration = Service.Properties.Settings.Default.FlashLightOnBuildStatusChange ? 5 : new int?();
+            bool flashOnStatusChange = Properties.Settings.Default.FlashLightOnBuildStatusChange;
+            int? flashDuration = Properties.Settings.Default.FlashLightOnBuildStatusChange ? 5 : new int?();
 
             if ((checkAllBuildStatuses && BuildStatuses.All(b => b.Value == BuildStatus.Succeeded)) ||
                 (!checkAllBuildStatuses && status == BuildStatus.Succeeded))
@@ -117,11 +116,11 @@ namespace BuildMonitor.Engine
             }
             if (status == BuildStatus.NotStarted || status == BuildStatus.InProgress)
             {
-                if (Service.Properties.Settings.Default.EnableDelcomLightColourChangeWhileBuilding)
+                if (Properties.Settings.Default.EnableDelcomLightColourChangeWhileBuilding)
                 {
                     SetLED(DelcomBuildIndicator.GREENLED, false, false);
                     SetLED(DelcomBuildIndicator.BLUELED, true,
-                           Service.Properties.Settings.Default.EnableDelcomFlashingWhileBuilding);
+                           Properties.Settings.Default.EnableDelcomFlashingWhileBuilding);
                     SetLED(DelcomBuildIndicator.REDLED, false, false);
                 }
                 else if (flashOnStatusChange)

@@ -1,6 +1,5 @@
 using System.Linq;
 using BuildMonitor.Engine;
-using BuildMonitor.Service;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

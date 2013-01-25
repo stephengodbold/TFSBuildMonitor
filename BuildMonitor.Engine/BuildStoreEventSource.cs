@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using BuildMonitor.Service;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Server;
 

@@ -20,7 +20,7 @@
 
 using System;
 using System.Threading;
-using BuildMonitor.Service.Properties;
+using BuildMonitor.Engine.Properties;
 
 namespace BuildMonitor.Engine
 {
@@ -78,7 +78,7 @@ namespace BuildMonitor.Engine
 
         public void Start()
         {
-            pollTimer = new Timer(Worker, null, 0, Settings.Default.PollPeriod * 1000);
+            pollTimer = new Timer(Worker, null, 0, Settings.Default.PollPeriodInSeconds * 1000);
         }
 
         public void Stop()

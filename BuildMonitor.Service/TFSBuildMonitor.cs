@@ -12,7 +12,6 @@ namespace BuildMonitor.Service
         public TFSBuildMonitor()
         {
             InitializeComponent();
-
             logger = new EventLogger(EventLog, "TFS Build Monitor");
         }
 
