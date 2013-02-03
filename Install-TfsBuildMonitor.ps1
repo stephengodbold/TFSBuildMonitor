@@ -1,5 +1,5 @@
 ﻿param(
-    [parameter(mandatory=$true)]
+    [parameter()]
     [string]
     $repositoryRoot,
     
@@ -95,6 +95,10 @@ function Unzip-DelcomDependency {
     $archivePath = Join-Path $repositoryRoot $archiveName
 
     Expand-Zip $archivePath $installPath
+}
+
+if ($repositoryRoot -eq '') {
+    $repositoryRoot = Get-Location
 }
 
 $applicationName = 'TfsBuildMonitor'
