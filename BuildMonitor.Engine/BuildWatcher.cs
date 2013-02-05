@@ -37,14 +37,19 @@ namespace BuildMonitor.Engine
             eventSource = new BuildStoreEventSource(teamFoundationServiceProvider,
                                                     Settings.Default.BuildDefinitionNameExclusionPattern);
             this.logger = logger;
+
+            Initalize();
         }
 
-        private void Worker(object state)
+        private void Initalize()
         {
             var events = eventSource.GetListOfBuildStoreEvents();
             if (BuildWatcherInitializing != null)
                 BuildWatcherInitializing(this, events);
+        }
 
+        private void Worker(object state)
+        {
             try
             {
                 var buildStoreEvents = eventSource.GetListOfBuildStoreEvents();
