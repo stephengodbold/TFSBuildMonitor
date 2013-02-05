@@ -35,6 +35,7 @@ namespace BuildMonitor.Engine
             var teamFoundationServiceProvider = new TfsServiceProvider(Settings.Default.TeamFoundationCollectionUrl,
                                                                        logger);
             eventSource = new BuildStoreEventSource(teamFoundationServiceProvider,
+                                                    Settings.Default.ProjectNameExclusionPattern,
                                                     Settings.Default.BuildDefinitionNameExclusionPattern);
             this.logger = logger;
 

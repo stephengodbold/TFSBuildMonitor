@@ -94,5 +94,14 @@ namespace BuildMonitor.Engine.Properties {
                 return ((bool)(this["LogEnabled"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProjectNameExclusionPattern {
+            get {
+                return ((string)(this["ProjectNameExclusionPattern"]));
+            }
+        }
     }
 }

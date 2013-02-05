@@ -11,17 +11,25 @@ namespace BuildMonitor.Engine
     {
         private readonly IServiceProvider teamFoundationServiceProvider;
         private readonly Regex buildDefinitionNameExclusionRegex;
+        private readonly Regex projectNameExclusionRegex;
         private readonly IDictionary<string, IBuildDetail> cacheLookup = new Dictionary<string, IBuildDetail>();
 
         public BuildStoreEventSource(IServiceProvider teamFoundationServiceProvider,
-                                     string buildDefinitionNameExclusionPattern)
+                                        string projectNameExclusionPattern,
+                                        string buildDefinitionNameExclusionPattern)
         {
             this.teamFoundationServiceProvider = teamFoundationServiceProvider;
 
-            if (!string.IsNullOrEmpty(buildDefinitionNameExclusionPattern))
+            if (!string.IsNullOrWhiteSpace(buildDefinitionNameExclusionPattern))
             {
                 buildDefinitionNameExclusionRegex = new Regex(buildDefinitionNameExclusionPattern,
                                                               RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            }
+
+            if (!string.IsNullOrWhiteSpace(projectNameExclusionPattern))
+            {
+                projectNameExclusionRegex = new Regex(projectNameExclusionPattern,
+                                                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
             }
         }
 
@@ -41,7 +49,9 @@ namespace BuildMonitor.Engine
                 return new string[] {};
 
             var projectInfos = structureService.ListProjects();
-            var projectInfoNames = projectInfos.Select(p => p.Name);
+            var projectInfoNames = projectInfos
+                                    .Where(p => ShouldProjectBeIncluded(p.Name))
+                                    .Select(p => p.Name);
             return projectInfoNames;
         }
 
@@ -62,6 +72,13 @@ namespace BuildMonitor.Engine
                     }
                 }
             }
+        }
+
+        private bool ShouldProjectBeIncluded(string projectName)
+        {
+            if (projectNameExclusionRegex == null) return true;
+
+            return projectNameExclusionRegex.Matches(projectName).Count == 0;
         }
 
         private bool ShouldDefinitionBeIncluded(IBuildDefinition definition)
