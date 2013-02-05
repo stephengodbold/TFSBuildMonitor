@@ -36,7 +36,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
 
         private BuildStoreEventSource CreateBuildStoreEventSource()
         {
-            return CreateBuildStoreEventSource(null);
+            return CreateBuildStoreEventSource(null, null);
         }
 
 

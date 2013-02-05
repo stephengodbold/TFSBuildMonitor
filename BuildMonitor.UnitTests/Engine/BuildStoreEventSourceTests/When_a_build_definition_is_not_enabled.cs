@@ -51,7 +51,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
 
         private BuildStoreEventSource CreateBuildStoreEventSource()
         {
-            var eventSource = CreateBuildStoreEventSource(null);
+            var eventSource = CreateBuildStoreEventSource(null, null);
             var firstProject = ProjectInfos[0];
 
             DisabledBuildDefinition = MockBuildServer.QueryBuildDefinitions(firstProject.Name).First();

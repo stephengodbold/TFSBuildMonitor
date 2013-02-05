@@ -14,7 +14,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
         protected const int BuildDefinitionQuantity = 2;
         protected const int BuildDetailQuantity = 2;
 
-        protected BuildStoreEventSource CreateBuildStoreEventSource(string buildDefinitionNameExclusionPattern)
+        protected BuildStoreEventSource CreateBuildStoreEventSource(string projectNameExclusionPattern, string buildDefinitionNameExclusionPattern)
         {
             var mockServiceProvider = MockRepository.GenerateStub<IServiceProvider>();
             var mockStuctureService = MockRepository.GenerateStub<ICommonStructureService>();
@@ -30,7 +30,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
             mockStuctureService.Stub(m => m.ListProjects())
                 .Return(ProjectInfos);
 
-            return new BuildStoreEventSource(mockServiceProvider, buildDefinitionNameExclusionPattern);
+            return new BuildStoreEventSource(mockServiceProvider, projectNameExclusionPattern, buildDefinitionNameExclusionPattern);
         }
 
         private static ProjectInfo[] CreateProjectInfos(int quantity, int buildDefinitionQuantity, int buildDetailQuantity, IBuildServer mockBuildServer)

@@ -9,6 +9,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
     public sealed class When_excluding_build_definitions_by_regular_expression : A_BuildStoreEventSource_with_multiple_TeamProjects_BuildDefinitions_and_Builds
     {
         private const string BuildDefinitionNameExclusionPattern = "Trial$";
+        private const string ProjectNameExclusionPattern = "";
         private IBuildDefinition DefinitionNamedBuildTrial;
         
         [TestMethod]
@@ -35,7 +36,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
 
         private BuildStoreEventSource CreateBuildStoreEventSource()
         {
-            var eventSource = CreateBuildStoreEventSource(BuildDefinitionNameExclusionPattern);
+            var eventSource = CreateBuildStoreEventSource(ProjectNameExclusionPattern, BuildDefinitionNameExclusionPattern);
 
             var firstProject = ProjectInfos[0];
             DefinitionNamedBuildTrial = MockBuildServer.QueryBuildDefinitions(firstProject.Name).First();
