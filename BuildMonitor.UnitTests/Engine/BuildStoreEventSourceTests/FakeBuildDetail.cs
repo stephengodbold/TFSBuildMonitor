@@ -158,10 +158,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
             get { throw new NotImplementedException(); }
         }
 
-        public string TeamProject
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string TeamProject { get; set; }
 
         public bool Wait(TimeSpan pollingInterval, TimeSpan timeout, ISynchronizeInvoke synchronizingObject)
         {

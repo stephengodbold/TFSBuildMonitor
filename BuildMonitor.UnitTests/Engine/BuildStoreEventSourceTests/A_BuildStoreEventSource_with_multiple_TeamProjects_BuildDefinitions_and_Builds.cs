@@ -10,23 +10,25 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
     {
         protected ProjectInfo[] ProjectInfos;
         protected IBuildServer MockBuildServer;
-        protected const int ProjectInfoQuantity = 2;
-        protected const int BuildDefinitionQuantity = 2;
-        protected const int BuildDetailQuantity = 2;
+        protected int ProjectInfoQuantity = 2;
+        protected int BuildDefinitionQuantity = 2;
+        protected int BuildDetailQuantity = 2;
+
+        protected A_BuildStoreEventSource_with_multiple_TeamProjects_BuildDefinitions_and_Builds()
+        {
+            MockBuildServer = MockRepository.GenerateStub<IBuildServer>();
+            ProjectInfos = CreateProjectInfos(ProjectInfoQuantity, BuildDefinitionQuantity, BuildDetailQuantity, MockBuildServer);
+        }
 
         protected BuildStoreEventSource CreateBuildStoreEventSource(string projectNameExclusionPattern, string buildDefinitionNameExclusionPattern)
         {
             var mockServiceProvider = MockRepository.GenerateStub<IServiceProvider>();
             var mockStuctureService = MockRepository.GenerateStub<ICommonStructureService>();
-            MockBuildServer = MockRepository.GenerateStub<IBuildServer>();
 
             mockServiceProvider.Stub(m => m.GetService(typeof(ICommonStructureService)))
                 .Return(mockStuctureService);
             mockServiceProvider.Stub(m => m.GetService(typeof(IBuildServer)))
                 .Return(MockBuildServer);
-
-            ProjectInfos = CreateProjectInfos(ProjectInfoQuantity, BuildDefinitionQuantity, BuildDetailQuantity, MockBuildServer);
-
             mockStuctureService.Stub(m => m.ListProjects())
                 .Return(ProjectInfos);
 
@@ -46,7 +48,7 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
             return projectInfos;
         }
 
-        private static FakeBuildDefinition[] CreateFakeBuildDefinitions(string teamProjectName, int quantity, int buildDetailQuantity, IBuildServer mockBuildServer)
+        protected static FakeBuildDefinition[] CreateFakeBuildDefinitions(string teamProjectName, int quantity, int buildDetailQuantity, IBuildServer mockBuildServer)
         {
             var definitions = new FakeBuildDefinition[quantity];
             for (var i = 0; i < quantity; i++)
@@ -59,12 +61,12 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
                                      };
                 definitions[i] = definition;
                 mockBuildServer.Stub(m => m.QueryBuilds(definition))
-                    .Return(CreateFakeBuildDetails(buildDetailQuantity, definition));
+                    .Return(CreateFakeBuildDetails(buildDetailQuantity, definition, teamProjectName));
             }
             return definitions;
         }
 
-        private static FakeBuildDetail[] CreateFakeBuildDetails(int quantity, IBuildDefinition definition)
+        private static FakeBuildDetail[] CreateFakeBuildDetails(int quantity, IBuildDefinition definition, string teamProjectName)
         {
             var details = new FakeBuildDetail[quantity];
             for (var i = 0; i < quantity; i++)
@@ -73,7 +75,8 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
                                  {
                                      Uri = new Uri(string.Format("http://fake/{0}", Guid.NewGuid())),
                                      StartTime = DateTime.Now.AddHours(-i),
-                                     BuildDefinition = definition
+                                     BuildDefinition = definition,
+                                     TeamProject = teamProjectName
                                  };
                 details[i] = detail;
             }
