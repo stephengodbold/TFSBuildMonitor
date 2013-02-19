@@ -11,6 +11,10 @@ Changes made:
 * Install script added in root
 * Added project filtering to configuration
 
+Dependencies
+
+* TFS API
+
 Install Guide 
 
 * Run PowerShell as Administrator
