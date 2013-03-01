@@ -46,13 +46,14 @@ namespace BuildMonitor.Engine
         {
             var structureService = teamFoundationServiceProvider.GetService<ICommonStructureService>();
             if (structureService == null)
-                return new string[] {};
+                return new string[] { };
 
             var projectInfos = structureService.ListProjects();
             var projectInfoNames = projectInfos
-                                    .Where(p => ShouldProjectBeIncluded(p.Name))
-                                    .Select(p => p.Name);
-            return projectInfoNames;
+                .Select(p => p.Name)
+                .Where(ShouldProjectBeIncluded);
+
+            return projectInfoNames.ToArray();
         }
 
         private IEnumerable<IBuildDetail> GetBuildsForTeamProjects(IEnumerable<string> teamProjectNames)
