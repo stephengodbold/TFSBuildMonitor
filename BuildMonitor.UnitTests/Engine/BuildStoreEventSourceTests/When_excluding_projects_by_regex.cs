@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using BuildMonitor.Engine;
 using Microsoft.TeamFoundation.Server;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
@@ -12,7 +10,6 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
     [TestClass]
     public class When_excluding_projects_by_regex : A_BuildStoreEventSource_with_multiple_TeamProjects_BuildDefinitions_and_Builds
     {
-        private const string BuildDefinitionNameExclusionPattern = "";
         private const string ProjectNameExclusionPattern = "^((?!Mettle).)*$";
 
         [TestMethod]
@@ -30,17 +27,15 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
 
         [TestMethod]
         public void build_from_excluded_project_should_not_be_included()
-        {
-            const string excludedProject = "NightHawk";
-
+        {   
             BuildDefinitionQuantity = 2;
             ProjectInfos = GetProjects().ToArray();
             AddBuildDefinitionsToProjects(ProjectInfos);
-            var buildStore = CreateBuildStoreEventSource(excludedProject, null);
+            var buildStore = CreateBuildStoreEventSource(ProjectNameExclusionPattern, null);
             
             var events = buildStore.GetListOfBuildStoreEvents().ToArray();
 
-            Assert.AreEqual(0, events.Count(e => e.Data.TeamProject.Equals(excludedProject, StringComparison.InvariantCultureIgnoreCase)));
+            Assert.AreEqual(0, events.Count(e => e.Data.TeamProject != "Mettle"));
         }
 
         [TestMethod]
@@ -57,15 +52,6 @@ namespace BuildMonitor.UnitTests.Engine.BuildStoreEventSourceTests
             var events = buildStore.GetListOfBuildStoreEvents().ToArray();
 
             Assert.AreEqual(expectedBuilds, events.Count());
-        }
-
-        private BuildStoreEventSource CreateBuildStoreEventSource()
-        {
-            ProjectInfos = GetProjects().ToArray();
-
-            AddBuildDefinitionsToProjects(ProjectInfos);
-
-            return CreateBuildStoreEventSource(ProjectNameExclusionPattern, BuildDefinitionNameExclusionPattern); ;
         }
 
         private void AddBuildDefinitionsToProjects(IEnumerable<ProjectInfo> infos)
