@@ -3,6 +3,10 @@ TFSBuildMonitor
 
 A fork of the original TFS Build Monitor from http://buildmonitor.codeplex.com/
 
+If you find issues, please raise them and I'll work on them as time allows. Also accepting pull requests ;)
+
+-----------------------------
+
 Changes made:
 
 * Moved monitor to a windows service host
