@@ -1,19 +1,4 @@
-﻿param(
-    [parameter()]
-    [string]
-    $repositoryRoot,
-    
-    [parameter()]
-    [string]
-    $installRoot = $env:ProgramFiles
-)
-
-function Get-MsBuildPath {
-    $registryLocation = 'HKLM:\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0\'    
-    $registryEntry = Get-ItemProperty $registryLocation -Name 'MSBuildToolsPath'
-    
-    return $registryEntry.MSBuildToolsPath
-}
+﻿$packageName = 'TFSBuildMonitor' 
 
 function Test-Service {
     $service = Get-Service TfsBuildMonitor -ErrorAction 'SilentlyContinue'
@@ -89,13 +74,18 @@ function Unzip-DelcomDependency {
     Expand-Zip $archivePath $installPath
 }
 
-if ($repositoryRoot -eq '') {
-    $repositoryRoot = Get-Location
+try { 
+    if ($repositoryRoot -eq '') {
+        $repositoryRoot = Get-Location
+    }
+
+    $installPath = Join-Path $installRoot $packageName
+
+    Unzip-DelcomDependency $repositoryRoot $installPath
+    Install-Service $installPath
+    Start-Service $packageName
+    Write-ChocolateySuccess "$packageName"
+} catch {
+    Write-ChocolateyFailure "$packageName" "$($_.Exception.Message)"
+    throw 
 }
-
-$applicationName = 'TfsBuildMonitor'
-$installPath = Join-Path $installRoot $applicationName
-
-Unzip-DelcomDependency $repositoryRoot $installPath
-Install-Service $installPath
-Start-Service $applicationName
