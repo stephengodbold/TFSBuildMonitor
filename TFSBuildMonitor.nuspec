@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>TFSBuildMonitor</id>
+    <title>TFS Build Monitor</title>
+    <version>$version$</version>
+    <authors>Steve Godbold</authors>
+    <owners>Steve Godbold</owners>
+    <summary>TFSBuildMonitor</summary>
+    <description>Build monitor service for reporting status from Team Build</description>
+    <projectUrl>https://github.com/stephengodbold/TFSBuildMonitor</projectUrl>
+    <tags>TFSBuildMonitor TFS Build TeamBuild</tags>
+    <copyright></copyright>
+    <licenseUrl>http://buildmonitor.codeplex.com/license</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+      <dependency id="VisualStudio2012WDX" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+    <file src="\**" target="content" />
+  </files>
+</package>

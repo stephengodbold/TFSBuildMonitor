@@ -15,15 +15,6 @@ function Get-MsBuildPath {
     return $registryEntry.MSBuildToolsPath
 }
 
-function Build-Project {
-    $MSBuild = Join-Path (Get-MsBuildPath) 'msbuild.exe'
-    $solutionFile = (Join-Path $repositoryRoot 'BuildMonitor.sln')
-    $buildArgs = "/p:Configuration=Release"
-
-    & $MSBuild $solutionFile `
-                $buildArgs
-}
-
 function Test-Service {
     $service = Get-Service TfsBuildMonitor -ErrorAction 'SilentlyContinue'
     return $service -ne $null
@@ -71,7 +62,8 @@ function Expand-Zip($SourcePath, $TargetPath) {
 }
 
 function Get-OSVersion {
-    if ([System.IntPtr]::Size -eq 8) {
+    $processor = Get-WmiObject Win32_Processor
+    if ($processor.AddressWidth -eq 64) {
         return '64'
     }
 
@@ -104,7 +96,6 @@ if ($repositoryRoot -eq '') {
 $applicationName = 'TfsBuildMonitor'
 $installPath = Join-Path $installRoot $applicationName
 
-Build-Project
 Unzip-DelcomDependency $repositoryRoot $installPath
 Install-Service $installPath
 Start-Service $applicationName

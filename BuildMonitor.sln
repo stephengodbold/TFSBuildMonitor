@@ -1,10 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9042D868-C41B-4297-A456-6A18B3197F5E}"
 	ProjectSection(SolutionItems) = preProject
 		BuildMonitor.vsmdi = BuildMonitor.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		TFSBuildMonitor.nuspec = TFSBuildMonitor.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildMonitor.UnitTests", "BuildMonitor.UnitTests\BuildMonitor.UnitTests.csproj", "{FFC68F80-A88C-4265-BD8B-5F84A60C9357}"
