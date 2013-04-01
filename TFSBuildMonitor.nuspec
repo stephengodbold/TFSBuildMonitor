@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="\**" target="content" />
+    <file src="chocolateyInstall.ps1" target="tools" />
   </files>
 </package>
