@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="\**" target="content" />
+    <file src="\**" target="content" exclude="chocolateyInstall.ps1"/>
     <file src="chocolateyInstall.ps1" target="tools" />
   </files>
 </package>
